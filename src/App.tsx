@@ -1,43 +1,47 @@
-import { Component, ReactNode } from 'react';
-import {Route, Switch, Redirect} from 'react-router-dom'
-
-import type { DatePickerProps } from 'antd';
-import { DatePicker, Space } from 'antd';
-import { Button } from 'antd';
-import style from './App.module.less'
+import { Routes, Route, Navigate, useRoutes } from 'react-router-dom'
 
 import Home from './pages/Home/Home'
+import ClassComponent from './pages/ClassComponent/ClassComponent'
 import Request from './pages/Request/Request'
 
-export default class App extends Component {
 
-	render(): ReactNode {
-		console.log("props", this.props);   // {}
-		
-		// console.log(style);
-		// console.log("process.env", process.env);
-		const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-			console.log(date, dateString);
-		};
-		return (
-			<div id="app">
-				<div className={style.App} style={{width: '100%',backgroundColor: 'silver'}}>标题</div>
-				<div>
-					<Space direction="vertical">
-						<DatePicker onChange={onChange} />
-						<DatePicker onChange={onChange} picker="week" />
-						<DatePicker onChange={onChange} picker="month" />
-						<DatePicker onChange={onChange} picker="quarter" />
-						<DatePicker onChange={onChange} picker="year" />
-					</Space>
-				</div>
-				<div><Button type="primary">Button</Button></div>
-                <Switch>
-					<Route path="/home" component={Home}/>
-					<Route path="/request" component={Request}/>
-					<Redirect to="/home"/>
-				</Switch>
-            </div>
-		)
-	}
+export default function App() {
+
+	const element = useRoutes([
+		{
+			path: 'home',
+			element: <Home/>,
+			children: [
+				{
+					path: 'home',
+					element: <Home/>,
+				}
+			]
+		},
+		{
+			path: 'class',
+			element: <ClassComponent/>,
+		},
+		{
+			path: 'request',
+			element: <Request/>,
+		},
+		{
+			path: '/',
+			element: <Navigate to="/home"/>,
+		},
+	])
+
+	return (
+		<div id="app">
+			{element}
+			{/* <Routes>
+				<Route path="/home" element={<Home/>}/>
+				<Route path="/class" element={<ClassComponent/>}/>
+				<Route path="/request" element={<Request/>}/>
+				
+				<Route path="/" element={<Navigate to="/home"/>}/>
+			</Routes> */}
+		</div>
+	)
 }
