@@ -16,6 +16,21 @@
 	<script type="text/javascript" > 
 		//1.创建虚拟DOM
 		const VDOM = React.createElement('h1',{id:'title'},React.createElement('span',{},'Hello,React'))
+		
+		/*
+		React.createElement() 用来创建一个React元素l
+		参数:-
+		1.元素的名称(html标签必须小写)
+		2.标签中的属性
+			cLass属性需要使用className来设置
+			在设置事件时，属性名需要修改为驼峰命名法
+		3.元素的内容(子元素)
+
+		注意点:
+			React元素最终会通过虚拟DOM转换为真实的DOM元素
+			React元素一旦创建就无法修改，只能通过新创建的元素进行替换
+		*/
+
 		//2.渲染虚拟DOM到页面
 		ReactDOM.render(VDOM,document.getElementById('test'))
 	</script>
